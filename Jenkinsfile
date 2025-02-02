@@ -43,13 +43,12 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                input{
-                    message "Do you want to deploy this application?"
-                }
-                script {
-                    echo "Deployment Approved! Deploying application..."
-                }
+            input message: 'Approve Deployment?'
+            script {
+                echo "Deployment Approved! Deploying application..."
             }
+            }
+        }
         }
     }
 }
