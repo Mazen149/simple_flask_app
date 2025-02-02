@@ -17,5 +17,39 @@ pipeline {
                 }
             }
         }
+        stage('Test'){
+            agent {
+                docker {
+                    image 'ubuntu:latest'
+                }
+            }
+            steps {
+                echo 'Testing ....'
+            }
+        }
+        
+        stage('Run Container') {
+            steps {
+                script {
+                    sh '''
+                    docker run -d \
+                        --name flaskapp \
+                        -p 5555:5000 \
+                        ${IMAGE_NAME}:0.0.1
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                input{
+                    message "Do you want to deploy this application?"
+                }
+                script {
+                    echo "Deployment Approved! Deploying application..."
+                }
+            }
+        }
     }
 }
