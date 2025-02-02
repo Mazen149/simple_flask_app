@@ -27,26 +27,17 @@ pipeline {
                 echo 'Testing ....'
             }
         }
-        
-        stage('Run Container') {
+        stage('Deploy') {
+            input message: 'Approve Deployment?'
             steps {
                 script {
                     sh '''
                     docker run -d \
-                        --name flaskapp \
-                        -p 5555:5000 \
+                        --name flaskapp2 \
+                        -p 4444:5000 \
                         ${IMAGE_NAME}:0.0.1
                     '''
                 }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-            input message: 'Approve Deployment?'
-            script {
-                echo "Deployment Approved! Deploying application..."
-            }
             }
         }
     }
